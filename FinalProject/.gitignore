@@ -1,7 +1,4 @@
 *.vs
-/FinalProject/bin/Debug
-/FinalProject/obj/Debug
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
