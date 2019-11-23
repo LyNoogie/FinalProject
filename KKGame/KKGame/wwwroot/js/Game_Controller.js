@@ -16,6 +16,7 @@
         Game_Controller.#playing = true;
     }
 
+    
     drop_in_column(col) {
         let meteor = new Meteor(50);
         meteor.x = this.column_start + ((col - 1) * this.column_width) + this.column_start;
@@ -27,6 +28,7 @@
         meteor.begin_fall_animation();
         app.stage.addChildAt(meteor, 0);
     }
+    
 
     main() {
         setup_pixi_stage(600, 400, 0xff0000);
@@ -35,15 +37,30 @@
         loader.load(this.load_done.bind(this));
     }
 
+    
     load_done(loader, resources) {
         this.add_play_button();
         this.add_reset_button();
     }
 
+    reset() {
+        // WARNING: this code relies on the fact that checkers are
+        //          placed at beginning of children array of stage
+        //          (farthest from viewer).
+        let sprite = app.stage.getChildAt(0);
+        while (sprite instanceof Meteor) {
+            app.stage.removeChild(sprite);
+            sprite = app.stage.getChildAt(0);
+        }
+
+        this.#screen.reset();
+
+    }
+
     add_reset_button() {
         let button = new Button({
             bg_color: 0xffffff,
-            outline_color: 0xffffff,
+            outline_color: 0x000000,
             handler: game_controller.reset.bind(this),
             text: "Reset"
         });
@@ -56,33 +73,37 @@
         app.stage.addChild(button);
     }
 
-    ajax_position_request() {
-        @.ajax({
+    ajax_move_request() {
+        $.ajax({
             url: "Home/GetMove",
             type: "GET",
             data: "board=" + game_controller.board_string
         })
             .done(function (data) {
-                game_controller.drop_in_column(data);
+                console.log(data);
+                game_controller.play_in_column(data);
             })
             .fail(function (data) {
-
+                console.log("didn't work!");
             });
     }
 
     add_play_button() {
         let button = new Button({
             bg_color: 0xffffff,
-            outline_color: 0xffffff,
+            outline_color: 0x000000,
             handler: this.ajax_position_request,
             text: "Play"
         });
+
         button.scale.x = .5;
         button.scale.y = .5;
         button.x = 565;
-        button.y = 50;
+        button.y = 150;
 
         app.stage.addChild(button);
+
     }
+    
 
 }
