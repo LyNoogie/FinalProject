@@ -41,6 +41,7 @@
     load_done(loader, resources) {
         this.add_play_button();
         this.add_reset_button();
+        
     }
 
     reset() {
@@ -54,6 +55,10 @@
         }
 
         this.#screen.reset();
+
+    }
+
+    add_meteor_word() {
 
     }
 

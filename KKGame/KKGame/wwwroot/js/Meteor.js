@@ -12,7 +12,7 @@
         this.image.y = -this.image.height / 2;
         this.endFill();
 
-        this.addChild(this.image);
+        app.stage.addChild(this.image);
     }
 
     begin_fall_animation() {
