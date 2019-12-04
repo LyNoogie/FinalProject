@@ -31,7 +31,8 @@
      * handle a click on the checker (makes it start falling)
      */
     button_click() {
-        if (this.event_handler !== null) {
+        if (this.event_handler !== null)
+        {
             this.event_handler();
         }
     }
