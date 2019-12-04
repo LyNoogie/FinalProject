@@ -58,10 +58,6 @@
 
     }
 
-    add_meteor_word() {
-
-    }
-
     add_reset_button() {
         let button = new Button({
             bg_color: 0xffffff,
@@ -80,13 +76,13 @@
 
     ajax_move_request() {
         $.ajax({
-            url: "Home/GetMove",
+            url: "Home/GetPosition",
             type: "GET",
             data: "board=" + game_controller.board_string
         })
             .done(function (data) {
                 console.log(data);
-                game_controller.play_in_column(data);
+                game_controller.drop_in_column(data);
             })
             .fail(function (data) {
                 console.log("didn't work!");
@@ -97,7 +93,7 @@
         let button = new Button({
             bg_color: 0xffffff,
             outline_color: 0x000000,
-            handler: this.ajax_position_request,
+            handler: this.ajax_move_request,
             text: "Play"
         });
 
