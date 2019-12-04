@@ -41,8 +41,20 @@
     load_done(loader, resources) {
         this.add_play_button();
         this.add_reset_button();
-        
+
+        let score = 0;
+        let scoreText = new PIXI.Text('Score: 0');
+
+        app.stage.addChild(scoreText);
+
+        let setScore = value => {
+            score = value;
+            scoreText.text = ('Score: ' + score);
+        };
+        scoreText.x = app.screen.width - (scoreText.width+40);
+        setScore(300);
     }
+
 
     reset() {
         // WARNING: this code relies on the fact that checkers are
