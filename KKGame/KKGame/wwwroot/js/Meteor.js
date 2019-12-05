@@ -13,8 +13,10 @@
         this.image.scale.y = this.radius / (this.image.height / 2);
         this.image.x = -this.image.width / 2;
         this.image.y = -this.image.height / 2;
-        //this.endFill();
 
+        this.image.direction = Math.random() * 2;
+        this.image.speed = 2;
+        //this.endFill();
         this.addChild(this.image);
 
         const style = new PIXI.TextStyle({

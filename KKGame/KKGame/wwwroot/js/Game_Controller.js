@@ -1,5 +1,6 @@
 ﻿class Game_Controller {
     static #playing = false;
+    meteors = [];
 
     #screen = new KK_Console();
 
@@ -30,7 +31,8 @@
         meteor.scale.y = .5;
 
         meteor.begin_fall_animation();
-        app.stage.addChildAt(meteor, 0);
+        //app.stage.addChildAt(meteor, 0);
+        app.stage.addChild(meteor);
     }
     
 
