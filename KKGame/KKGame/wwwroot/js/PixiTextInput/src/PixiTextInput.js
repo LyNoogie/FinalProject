@@ -732,8 +732,8 @@ Object.defineProperty(PixiTextInput.prototype, "width", {
  * @type String
  */
 Object.defineProperty(PixiTextInput.prototype, "text", {
-	get: function() {
-		return this._text;
+    get: function () {
+        return this._text;
 	},
 
 	set: function(v) {

@@ -1,9 +1,9 @@
 ﻿class Game_Controller {
     static #playing = false;
     meteors = [];
+    
 
     #screen = new KK_Console();
-    setInterval(startMatch(), 100);
 
     get column_width() { return 75; }
     get column_start() { return 25; }
@@ -14,7 +14,6 @@
         if (Game_Controller.#playing) {
             throw "Game in progress";
         }
-
         Game_Controller.#playing = true;
     }
     
@@ -42,6 +41,7 @@
         const loader = PIXI.Loader.shared;
         loader.add("Resources/meteor2.png");
         loader.load(this.load_done.bind(this));
+        
     }
 
     
@@ -64,18 +64,29 @@
         scoreText.x = app.screen.width - (scoreText.width+40);
         setScore(300);
 
-        var input = new PixiTextInput();
+        let input = new PixiTextInput();
         input.position.x = 225;
         input.position.y = 350;
         input.text = 123;
         app.stage.addChild(input);
 
-        let inputText = input.text;
-        alert(inputText);
+        input.on('keydown', this.start_match);
+
     }
 
-  
+    start_match() {
+        alert("hello");
+    }
 
+    match_words(word) {
+        const tester = ["hello", "123", "abc"];
+        if (tester.find(element => element == word)) {
+            alert("GOT HERE");
+        }
+        else {
+            alert("NOPE");
+        }
+    }
 
     reset() {
         // WARNING: this code relies on the fact that checkers are
