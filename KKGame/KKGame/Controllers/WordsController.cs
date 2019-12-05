@@ -150,7 +150,7 @@ namespace KKGame.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetWord()
+        public string GetWord(string meteor)
         {
             Random r = new Random();
             List<Words> wordList = _context.Words.ToList();
@@ -164,9 +164,13 @@ namespace KKGame.Controllers
 
             int rInt = r.Next(min, max + 1);
 
-            var word = _context.Words.Where(m => m.WordID == rInt);
-            string result = "";
-            return View(word);
+            var word = _context.Words.Where(m => m.WordID == rInt).Select(m => m.Word);
+            return word.First();
+            //foreach(string s in word)
+            //{
+            //    Console.Write(s);
+            //}
+            //return "";
         }
     }
 }

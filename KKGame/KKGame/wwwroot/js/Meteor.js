@@ -3,6 +3,7 @@
         super();
         this.radius = radius;
         this.add_image();
+        this.ajax_word_request();
     }
 
     add_image() {
@@ -32,6 +33,21 @@
         //text_sprite.x = -text_sprite.width / 2;
         //text_sprite.y = text_sprite.height / 2 - 5;
         this.addChild(text_sprite);
+    }
+
+    ajax_word_request() {
+        $.ajax({
+            url: "Words/GetWord",
+            type: "GET",
+            data: "meteor"
+        })
+            .done(function (data) {
+                alert(data);
+                add_word(data);
+            })
+            .fail(function (data) {
+                console.log("didn't work!");
+            });
     }
 
 }
