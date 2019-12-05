@@ -3,6 +3,7 @@
     meteors = [];
 
     #screen = new KK_Console();
+    setInterval(startMatch(), 100);
 
     get column_width() { return 75; }
     get column_start() { return 25; }
@@ -64,11 +65,16 @@
         setScore(300);
 
         var input = new PixiTextInput();
-        input.position.x = 100;
-        input.position.y = 100;
+        input.position.x = 225;
+        input.position.y = 350;
         input.text = 123;
         app.stage.addChild(input);
+
+        let inputText = input.text;
+        alert(inputText);
     }
+
+  
 
 
     reset() {
