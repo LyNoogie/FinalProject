@@ -1,7 +1,6 @@
 ﻿class Game_Controller {
     static #playing = false;
     meteors = [];
-    
 
     #screen = new KK_Console();
 
@@ -14,6 +13,7 @@
         if (Game_Controller.#playing) {
             throw "Game in progress";
         }
+
         Game_Controller.#playing = true;
     }
     
@@ -32,22 +32,33 @@
 
         meteor.begin_fall_animation();
         //app.stage.addChildAt(meteor, 0);
+        this.meteors.push(meteor);
         app.stage.addChild(meteor);
     }
-    
+
+    start_playing() {
+        setInterval(this.get_col, 2000);
+    }
+
+    get_col() {
+        var col = null;
+        game_controller.ajax_move_request(function (output) {
+            col = output;
+        });
+
+        game_controller.drop_in_column(col);
+    }
 
     main() {
         setup_pixi_stage(600, 400);
         const loader = PIXI.Loader.shared;
         loader.add("Resources/meteor2.png");
         loader.load(this.load_done.bind(this));
-        
     }
 
     
     load_done(loader, resources) {
         this.add_play_button();
-        this.add_reset_button();
 
         let score = 0;
         let scoreText = new PIXI.Text('Score: 0', {
@@ -64,69 +75,23 @@
         scoreText.x = app.screen.width - (scoreText.width+40);
         setScore(300);
 
-        let input = new PixiTextInput();
+        var input = new PixiTextInput();
         input.position.x = 225;
         input.position.y = 350;
         input.text = 123;
         app.stage.addChild(input);
 
-        input.on('keydown', this.start_match);
-
     }
 
-    start_match() {
-        alert("hello");
-    }
-
-    match_words(word) {
-        const tester = ["hello", "123", "abc"];
-        if (tester.find(element => element == word)) {
-            alert("GOT HERE");
-        }
-        else {
-            alert("NOPE");
-        }
-    }
-
-    reset() {
-        // WARNING: this code relies on the fact that checkers are
-        //          placed at beginning of children array of stage
-        //          (farthest from viewer).
-        let sprite = app.stage.getChildAt(0);
-        while (sprite instanceof Meteor) {
-            app.stage.removeChild(sprite);
-            sprite = app.stage.getChildAt(0);
-        }
-
-        this.#screen.reset();
-
-    }
-
-    add_reset_button() {
-        let button = new Button({
-            bg_color: 0xffffff,
-            outline_color: 0x000000,
-            handler: game_controller.reset.bind(this),
-            text: "Reset"
-        });
-
-        button.scale.x = .5;
-        button.scale.y = .5;
-        button.x = 550;
-        button.y = 50;
-
-        app.stage.addChild(button);
-    }
-
-    ajax_move_request() {
+    ajax_move_request(handleData) {
         $.ajax({
+            async: false,
             url: "Home/GetPosition",
             type: "GET",
             data: "board=" + game_controller.board_string
         })
             .done(function (data) {
-                console.log(data);
-                game_controller.drop_in_column(data);
+                handleData(data);
             })
             .fail(function (data) {
                 console.log("didn't work!");
@@ -134,19 +99,18 @@
     }
 
     add_play_button() {
-        let button = new Button({
+        this.button = new Button({
             bg_color: 0xffffff,
             outline_color: 0x000000,
-            handler: this.ajax_move_request,
             text: "Play"
         });
 
-        button.scale.x = .5;
-        button.scale.y = .5;
-        button.x = 550;
-        button.y = 100;
+        this.button.scale.x = .5;
+        this.button.scale.y = .5;
+        this.button.x = 550;
+        this.button.y = 100;
 
-        app.stage.addChild(button);
+        app.stage.addChild(this.button);
 
     }
     
