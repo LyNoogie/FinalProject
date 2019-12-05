@@ -62,6 +62,12 @@
         };
         scoreText.x = app.screen.width - (scoreText.width+40);
         setScore(300);
+
+        var input = new PixiTextInput();
+        input.position.x = 100;
+        input.position.y = 100;
+        input.text = 123;
+        app.stage.addChild(input);
     }
 
 

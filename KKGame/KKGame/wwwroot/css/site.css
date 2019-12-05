@@ -26,8 +26,16 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-  font-size: 14px;
+html, body {
+    margin: 0;
+    wdith: 100%;
+    height: 100%;
+}
+
+canvas {
+    position: relative;
+    z-index: 1;
+    display: block;
 }
 @media (min-width: 768px) {
   html {
