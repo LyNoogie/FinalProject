@@ -3,7 +3,6 @@
     meteors = [];
 
     #screen = new KK_Console();
-    setInterval(startMatch(), 100);
 
     get column_width() { return 75; }
     get column_start() { return 25; }
@@ -33,9 +32,22 @@
 
         meteor.begin_fall_animation();
         //app.stage.addChildAt(meteor, 0);
+        this.meteors.push(meteor);
         app.stage.addChild(meteor);
     }
-    
+
+    start_playing() {
+        setInterval(this.get_col, 2000);
+    }
+
+    get_col() {
+        var col = null;
+        game_controller.ajax_move_request(function (output) {
+            col = output;
+        });
+
+        game_controller.drop_in_column(col);
+    }
 
     main() {
         setup_pixi_stage(600, 400);
@@ -47,7 +59,6 @@
     
     load_done(loader, resources) {
         this.add_play_button();
-        this.add_reset_button();
 
         let score = 0;
         let scoreText = new PIXI.Text('Score: 0', {
@@ -70,52 +81,17 @@
         input.text = 123;
         app.stage.addChild(input);
 
-        let inputText = input.text;
-        alert(inputText);
     }
 
-  
-
-
-    reset() {
-        // WARNING: this code relies on the fact that checkers are
-        //          placed at beginning of children array of stage
-        //          (farthest from viewer).
-        let sprite = app.stage.getChildAt(0);
-        while (sprite instanceof Meteor) {
-            app.stage.removeChild(sprite);
-            sprite = app.stage.getChildAt(0);
-        }
-
-        this.#screen.reset();
-
-    }
-
-    add_reset_button() {
-        let button = new Button({
-            bg_color: 0xffffff,
-            outline_color: 0x000000,
-            handler: game_controller.reset.bind(this),
-            text: "Reset"
-        });
-
-        button.scale.x = .5;
-        button.scale.y = .5;
-        button.x = 550;
-        button.y = 50;
-
-        app.stage.addChild(button);
-    }
-
-    ajax_move_request() {
+    ajax_move_request(handleData) {
         $.ajax({
+            async: false,
             url: "Home/GetPosition",
             type: "GET",
             data: "board=" + game_controller.board_string
         })
             .done(function (data) {
-                console.log(data);
-                game_controller.drop_in_column(data);
+                handleData(data);
             })
             .fail(function (data) {
                 console.log("didn't work!");
@@ -123,19 +99,18 @@
     }
 
     add_play_button() {
-        let button = new Button({
+        this.button = new Button({
             bg_color: 0xffffff,
             outline_color: 0x000000,
-            handler: this.ajax_move_request,
             text: "Play"
         });
 
-        button.scale.x = .5;
-        button.scale.y = .5;
-        button.x = 550;
-        button.y = 100;
+        this.button.scale.x = .5;
+        this.button.scale.y = .5;
+        this.button.x = 550;
+        this.button.y = 100;
 
-        app.stage.addChild(button);
+        app.stage.addChild(this.button);
 
     }
     
