@@ -166,11 +166,6 @@ namespace KKGame.Controllers
 
             var word = _context.Words.Where(m => m.WordID == rInt).Select(m => m.Word);
             return word.First();
-            //foreach(string s in word)
-            //{
-            //    Console.Write(s);
-            //}
-            //return "";
         }
     }
 }

@@ -14,14 +14,15 @@
         }
 
         Game_Controller.#playing = true;
-    } 
-    
-    catch_word(word) {
-        alert(word);
     }
     
     drop_in_column(col) {
-        let meteor = new Meteor(50);
+        var word = null;
+        this.ajax_word_request(function (output) {
+            word = output;
+        });
+
+        let meteor = new Meteor(50, word);
         meteor.x = this.column_start + ((col - 1) * this.column_width) + this.column_start;
         meteor.y = 10;
 
@@ -34,19 +35,22 @@
     
 
     main() {
-        setup_pixi_stage(600, 400, 0xff0000);
+        setup_pixi_stage(600, 400);
         const loader = PIXI.Loader.shared;
-        loader.add("Resources/meteor.png");
+        loader.add("Resources/meteor2.png");
         loader.load(this.load_done.bind(this));
     }
 
-
+    
     load_done(loader, resources) {
         this.add_play_button();
         this.add_reset_button();
 
         let score = 0;
-        let scoreText = new PIXI.Text('Score: 0');
+        let scoreText = new PIXI.Text('Score: 0', {
+            fill: '#ff4500',
+            fontWeight: 'bold',
+        });
 
         app.stage.addChild(scoreText);
 
@@ -56,12 +60,6 @@
         };
         scoreText.x = app.screen.width - (scoreText.width+40);
         setScore(300);
-
-        var input = new PixiTextInput();
-        input.position.x = 100;
-        input.position.y = 100;
-        input.text = 123;
-        app.stage.addChild(input);
     }
 
 
@@ -77,35 +75,6 @@
 
         this.#screen.reset();
 
-        
-    }
-
-    generateBox(w, h, state) {
-        var box = new PIXI.Container()
-        var sprite = new PIXI.extras.TilingSprite(PIXI.Texture.fromImage('tile.png'), w, h)
-        var mask = new PIXI.Graphics()
-
-
-        mask.beginFill(0)
-        mask.drawRoundedRect(0, 0, w, h, 36)
-
-        box.addChild(sprite)
-        box.addChild(mask)
-        sprite.mask = mask
-
-        switch (state) {
-            case 'DEFAULT':
-                sprite.tint = 0xffffff
-                break;
-            case 'FOCUSED':
-                sprite.tint = 0x7EDFFF
-                break;
-            case 'DISABLED':
-                sprite.alpha = 0.5
-                break;
-        }
-
-        return box
     }
 
     add_reset_button() {
@@ -118,7 +87,7 @@
 
         button.scale.x = .5;
         button.scale.y = .5;
-        button.x = 565;
+        button.x = 550;
         button.y = 50;
 
         app.stage.addChild(button);
@@ -149,12 +118,22 @@
 
         button.scale.x = .5;
         button.scale.y = .5;
-        button.x = 565;
-        button.y = 150;
+        button.x = 550;
+        button.y = 100;
 
         app.stage.addChild(button);
 
     }
     
-
+    ajax_word_request(handleData) {
+        $.ajax({
+            async: false,
+            url: "Words/GetWord",
+            type: "GET",
+            data: "meteor",
+            success: function (data) {
+                handleData(data);
+            }
+        });
+    }
 }

@@ -1,13 +1,14 @@
 ﻿class Meteor extends PIXI.Graphics {
-    constructor(radius) {
+    constructor(radius, word) {
         super();
         this.radius = radius;
+        this.word = word;
         this.add_image();
         
     }
 
     add_image() {
-        this.image = PIXI.Sprite.from('Resources/meteor.png');
+        this.image = PIXI.Sprite.from('Resources/meteor2.png');
         this.image.scale.x = this.radius / (this.image.width / 2);
         this.image.scale.y = this.radius / (this.image.height / 2);
         this.image.x = -this.image.width / 2;
@@ -15,12 +16,29 @@
         //this.endFill();
 
         this.addChild(this.image);
-        
-        this.ajax_word_request(function (output) {
-            game_controller.catch_word(output);
+
+        const style = new PIXI.TextStyle({
+            fontFamily: 'Arial',
+            fontSize: 30,
+            fontWeight: 'bold',
+            fill: ['#ff0000', '#ff4500'], // gradient
+            stroke: '#4a1850',
+            strokeThickness: 5,
+            dropShadow: true,
+            dropShadowColor: '#000000',
+            dropShadowBlur: 4,
+            dropShadowAngle: Math.PI / 6,
+            dropShadowDistance: 6,
+            wordWrap: true,
+            wordWrapWidth: 440,
         });
 
-        
+        var text_sprite = new PIXI.Text(this.word, style);
+        text_sprite.position.x = -10;
+        text_sprite.position.y = 0.5;
+        //text_sprite.x = -text_sprite.width / 2;
+        //text_sprite.y = text_sprite.height / 2 - 5;
+        this.addChild(text_sprite);
     }
 
     begin_fall_animation() {
@@ -33,32 +51,5 @@
         
         //app.ticker.remove(this.animate_falling, this);
     }
-
-    add_word(text) {
-        var text_sprite = new PIXI.Text(text,
-            {
-                font: '12px Arial',
-                fill: 0x666666,
-                align: 'center',
-                cacheAsBitmap: true, // for better performance
-                height: 57,
-                width: 82
-            });
-        //text_sprite.x = -text_sprite.width / 2;
-        //text_sprite.y = text_sprite.height / 2 - 5;
-        this.image.addChild(text_sprite);
-    }
-
-    ajax_word_request(handleData) {
-        $.ajax({
-            url: "Words/GetWord",
-            type: "GET",
-            data: "meteor",
-            success: function (data) {
-                handleData(data);
-            }
-        });
-    }
-
 
 }
