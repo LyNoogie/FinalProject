@@ -3,7 +3,7 @@
         super();
         this.radius = radius;
         this.add_image();
-        this.ajax_word_request();
+        
     }
 
     add_image() {
@@ -15,6 +15,12 @@
         //this.endFill();
 
         this.addChild(this.image);
+        
+        this.ajax_word_request(function (output) {
+            game_controller.catch_word(output);
+        });
+
+        
     }
 
     begin_fall_animation() {
@@ -22,32 +28,37 @@
     }
 
     animate_falling() {
-        this.y += 5;
+        this.y += 1;
 
         
         //app.ticker.remove(this.animate_falling, this);
     }
 
     add_word(text) {
-        let text_sprite = new PIXI.Text(text);
+        var text_sprite = new PIXI.Text(text,
+            {
+                font: '12px Arial',
+                fill: 0x666666,
+                align: 'center',
+                cacheAsBitmap: true, // for better performance
+                height: 57,
+                width: 82
+            });
         //text_sprite.x = -text_sprite.width / 2;
         //text_sprite.y = text_sprite.height / 2 - 5;
-        this.addChild(text_sprite);
+        this.image.addChild(text_sprite);
     }
 
-    ajax_word_request() {
+    ajax_word_request(handleData) {
         $.ajax({
             url: "Words/GetWord",
             type: "GET",
-            data: "meteor"
-        })
-            .done(function (data) {
-                alert(data);
-                add_word(data);
-            })
-            .fail(function (data) {
-                console.log("didn't work!");
-            });
+            data: "meteor",
+            success: function (data) {
+                handleData(data);
+            }
+        });
     }
+
 
 }

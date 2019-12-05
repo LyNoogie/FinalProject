@@ -16,6 +16,9 @@
         Game_Controller.#playing = true;
     }
 
+    catch_word(word) {
+        alert(word);
+    }
     
     drop_in_column(col) {
         let meteor = new Meteor(50);
