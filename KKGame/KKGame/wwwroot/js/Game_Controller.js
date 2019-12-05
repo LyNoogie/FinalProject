@@ -14,8 +14,8 @@
         }
 
         Game_Controller.#playing = true;
-    }
-
+    } 
+    
     catch_word(word) {
         alert(word);
     }
@@ -40,7 +40,7 @@
         loader.load(this.load_done.bind(this));
     }
 
-    
+
     load_done(loader, resources) {
         this.add_play_button();
         this.add_reset_button();
@@ -56,6 +56,12 @@
         };
         scoreText.x = app.screen.width - (scoreText.width+40);
         setScore(300);
+
+        var input = new PixiTextInput();
+        input.position.x = 100;
+        input.position.y = 100;
+        input.text = 123;
+        app.stage.addChild(input);
     }
 
 
@@ -71,6 +77,35 @@
 
         this.#screen.reset();
 
+        
+    }
+
+    generateBox(w, h, state) {
+        var box = new PIXI.Container()
+        var sprite = new PIXI.extras.TilingSprite(PIXI.Texture.fromImage('tile.png'), w, h)
+        var mask = new PIXI.Graphics()
+
+
+        mask.beginFill(0)
+        mask.drawRoundedRect(0, 0, w, h, 36)
+
+        box.addChild(sprite)
+        box.addChild(mask)
+        sprite.mask = mask
+
+        switch (state) {
+            case 'DEFAULT':
+                sprite.tint = 0xffffff
+                break;
+            case 'FOCUSED':
+                sprite.tint = 0x7EDFFF
+                break;
+            case 'DISABLED':
+                sprite.alpha = 0.5
+                break;
+        }
+
+        return box
     }
 
     add_reset_button() {
