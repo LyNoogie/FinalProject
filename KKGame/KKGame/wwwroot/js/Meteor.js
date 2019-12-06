@@ -50,8 +50,7 @@
 
     animate_falling() {
         if (this.y >= (app.screen.height - (this.height / 2))) {
-            game_controller.lost_life(this);
-            app.stage.removeChild(this.image);
+            game_controller.lose_life(this);
             this.ticker.stop();
         }
         this.y += 1;

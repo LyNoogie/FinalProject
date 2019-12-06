@@ -77,8 +77,7 @@
         game_controller.drop_in_column(col);
     }
 
-    lost_life(meteor) {
-        console.log("Called lost_life!");
+    lose_life(meteor) {
         for (var i = 0; i < this.meteors.length; i++) {
             if (meteor === this.meteors[i]) {
                 app.stage.removeChild(this.meteors[i]);
@@ -88,14 +87,6 @@
         if (this.dinos.length > 0) {
             let rmDino = this.dinos.pop();
             app.stage.removeChild(rmDino);
-
-            if (this.dinos.length === 0) {
-                app.ticker.stop();
-                alert("Game over!");
-            }
-        }
-        else {
-            alert("Game over!");
         }
     }
 
