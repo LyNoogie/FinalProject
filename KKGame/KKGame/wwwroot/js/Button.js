@@ -3,7 +3,7 @@
     // action to take when clicked. 
     event_handler = null;
 
-    constructor({ bg_color = 0xffffff, outline_color = 0x000000, text = null }) {
+    constructor({ handler = null, bg_color = 0xffffff, outline_color = 0x000000, text = null }) {
         super();
 
         this.interactive = true;
@@ -11,6 +11,7 @@
 
         this.bg_color = bg_color;
         this.outline_color = outline_color;
+        this.event_handler = handler;
 
         this.on('pointerup', this.button_click);
 
@@ -30,7 +31,9 @@
      * handle a click on the checker (makes it start falling)
      */
     button_click() {
-        game_controller.start_playing();
+        if (this.event_handler !== null) {
+            this.event_handler();
+        }
     }
 
     /**

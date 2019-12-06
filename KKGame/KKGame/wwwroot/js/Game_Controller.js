@@ -80,6 +80,7 @@
 
     load_done(loader, resources) {
         this.add_play_button();
+        this.wipe_screen();
 
         this.score = 0;
         this.scoreText = new PIXI.Text('Score: 0', {
@@ -173,6 +174,7 @@
         this.button = new Button({
             bg_color: 0xffffff,
             outline_color: 0x000000,
+            handler: game_controller.start_playing.bind(this),
             text: "Play"
         });
 
@@ -182,6 +184,36 @@
         this.button.y = 100;
 
         app.stage.addChild(this.button);
+
+    }
+
+    clear() {
+        if (this.score >= 50) {
+            this.score -= 50;
+            this.update_score();
+            let sprite = app.stage.getChildAt(0);
+            this.meteors.forEach(element => app.stage.removeChild(element));
+            this.meteors.clear;
+        }
+        //while (sprite instanceof Meteor) {
+        //    app.stage.removeChild(sprite);
+        //    sprite = app.stage.getChildAt(0);
+        //}
+    }
+
+    wipe_screen() {
+        this.button = new Button({
+            bg_color: 0xffffff,
+            outline_color: 0x000000,
+            handler: game_controller.clear.bind(this),
+            text: "Clear"
+        });
+        this.button.scale.x = .5;
+        this.button.scale.y = .5;
+        this.button.x = 550;
+        this.button.y = 150;
+
+        app.stage.addChild(this.button)
 
     }
     
