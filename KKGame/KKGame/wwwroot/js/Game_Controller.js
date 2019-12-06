@@ -70,6 +70,7 @@
     }
 
     lost_life(meteor) {
+        console.log("Called lost_life!");
         for (var i = 0; i < this.meteors.length; i++) {
             if (meteor === this.meteors[i]) {
                 app.stage.removeChild(this.meteors[i]);
@@ -96,6 +97,7 @@
     match_words() {
         for (var i = 0; i < this.meteors.length; i++) {
             if (this.meteors[i].word === this.input.text) {
+                this.meteors[i].ticker.stop();
                 app.stage.removeChild(this.meteors[i]);
                 this.meteors.splice(i, 1);
                 this.score += this.input.text.length;

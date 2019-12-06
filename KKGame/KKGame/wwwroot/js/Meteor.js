@@ -4,7 +4,7 @@
         this.radius = radius;
         this.word = word;
         this.add_image();
-        
+        this.ticker = new PIXI.Ticker();
     }
 
     add_image() {
@@ -44,17 +44,17 @@
     }
 
     begin_fall_animation() {
-        app.ticker.add(this.animate_falling, this);
+        this.ticker.add(this.animate_falling, this);
+        this.ticker.start()
     }
 
     animate_falling() {
-        this.y += 1;
-        if (this.y > (app.screen.height - (this.height / 2))) {
+        if (this.y >= (app.screen.height - (this.height / 2))) {
             game_controller.lost_life(this);
+            app.stage.removeChild(this.image);
+            this.ticker.stop();
         }
-
-        
-        //app.ticker.remove(this.animate_falling, this);
+        this.y += 1;
     }
 
 }
