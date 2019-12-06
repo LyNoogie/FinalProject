@@ -36,38 +36,39 @@
     }
 
     start_playing() {
-        console.log(Game_Controller.#playing);
-        if (Game_Controller.#playing === false) {
-            Game_Controller.#playing = true;
+        if (this.nickname_input.text !== "") {
+            console.log(Game_Controller.#playing);
+            if (Game_Controller.#playing === false) {
+                Game_Controller.#playing = true;
+                
+                this.username = this.nickname_input.text;
+                app.stage.removeChild(this.graphics);
 
-            this.username = this.nickname_input.text;
-            app.stage.removeChild(this.graphics);
+                // Setup dropping of meteors
+                setInterval(this.get_col, 2000);
 
-            // Setup dropping of meteors
-            setInterval(this.get_col, 2000);
-
-            // Focus the user textbox
-            this.input.focus();
-
-            //Capture the keyboard arrow keys
-            let enter = this.keyboard("Enter");
-            enter.press = () => {
-                this.match_words();
-            };
-            enter.release = () => {
+                // Focus the user textbox
                 this.input.focus();
-            }
 
-            let backspace = this.keyboard("Backspace");
-            backspace.press = () => {
-                //this.input.text = this.input.text.slice(0, -1);
-                this.input.text = "";
-            }
-            backspace.release = () => {
-                this.input.focus();
+                //Capture the keyboard arrow keys
+                let enter = this.keyboard("Enter");
+                enter.press = () => {
+                    this.match_words();
+                };
+                enter.release = () => {
+                    this.input.focus();
+                }
+
+                let backspace = this.keyboard("Backspace");
+                backspace.press = () => {
+                    //this.input.text = this.input.text.slice(0, -1);
+                    this.input.text = "";
+                }
+                backspace.release = () => {
+                    this.input.focus();
+                }
             }
         }
-        
         //this.button.event_handler = null;
 
     }
@@ -99,8 +100,10 @@
     }
 
     end_game() {
+        Game_Controller.#playing = false;
+
         this.gameover_popup = new PIXI.Graphics();
-        this.gameover_popup.beginFill(0xFFCC00);
+        this.gameover_popup.beginFill(0x000000);
 
         // draw a rectangle
         this.gameover_popup.drawRect(0, 0, 480, 250);
@@ -112,7 +115,8 @@
             fill: '#ff4500',
             fontWeight: 'bold',
         });
-        gameover.style.fontSize = 15;
+        gameover.style.fontSize = 25;
+        gameover.x = (this.gameover_popup.width - gameover.width) / 2;
         this.gameover_popup.addChild(gameover);
         app.stage.addChild(this.gameover_popup);
 
@@ -218,7 +222,11 @@
         this.graphics.x = (app.screen.width - this.graphics.width) / 2;
         this.graphics.y = 70;
 
-        var instructions = new PIXI.Text('This is where instuctions will go', {
+        var instructions = new PIXI.Text('Welcome to Keyranasaurus Text, a game to test your typing \nabilities. ' 
+            + 'Type the words correctly to destroy the falling meteors in \norder to save your dinosaur friends. You can choose '
+            + ' to destroy \nall the meteors on the screen if you have accumulated 50 points. \nBeware, this comes at a price of 50'
+            + ' points, so choose wisely. \n\nThe next meteor that hits after all'
+            + ' dinosaurs have gone extict will \nend your life, so have fun and be careful!', {
             fill: '#ff4500',
             fontWeight: 'bold',
         });
@@ -330,10 +338,6 @@
             this.meteors.forEach(element => app.stage.removeChild(element));
             this.meteors.clear;
         }
-        //while (sprite instanceof Meteor) {
-        //    app.stage.removeChild(sprite);
-        //    sprite = app.stage.getChildAt(0);
-        //}
     }
 
     wipe_screen() {
