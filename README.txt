@@ -7,6 +7,7 @@
 6. Ticker class: https://pixijs.download/dev/docs/PIXI.Ticker_.html
 7. Removing sprites from screen: https://www.html5gamedevs.com/topic/30539-correct-way-to-remove-sprites-container/
 8. Removing elements from an array: https://love2dev.com/blog/javascript-remove-from-array/
-9: Loops in JS: https://codeburst.io/javascript-the-difference-between-foreach-and-for-in-992db038e4c2
-10: Listening for keyboard events: https://github.com/kittykatattack/learningPixi
+9. Loops in JS: https://codeburst.io/javascript-the-difference-between-foreach-and-for-in-992db038e4c2
+10. Listening for keyboard events: https://github.com/kittykatattack/learningPixi
+11. Hex color picker: https://www.w3schools.com/colors/colors_picker.asp
 
