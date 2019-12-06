@@ -80,6 +80,11 @@
         if (this.dinos.length > 0) {
             let rmDino = this.dinos.pop();
             app.stage.removeChild(rmDino);
+
+            if (this.dinos.length === 0) {
+                app.ticker.stop();
+                alert("Game over!");
+            }
         }
         else {
             alert("Game over!");
