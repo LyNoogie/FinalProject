@@ -58,16 +58,10 @@
         //Capture the keyboard arrow keys
         let enter = this.keyboard("Enter");
         enter.press = () => {
-            this.start_match();
+            this.match_words();
         };
         enter.release = () => {
-            console.log("release");
-        }
-    }
-
-    start_match() {
-        if (this.match_words()) {
-            console.log("hello");
+            this.input.focus();
         }
     }
 
