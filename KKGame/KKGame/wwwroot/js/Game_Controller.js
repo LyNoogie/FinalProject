@@ -14,8 +14,6 @@
         if (Game_Controller.#playing) {
             throw "Game in progress";
         }
-
-        Game_Controller.#playing = true;
     }
     
     drop_in_column(col) {
@@ -32,32 +30,42 @@
         meteor.scale.y = .5;
 
         meteor.begin_fall_animation();
-        //app.stage.addChildAt(meteor, 0);
         this.meteors.push(meteor);
         app.stage.addChild(meteor);
     }
 
     start_playing() {
-        setInterval(this.get_col, 2000);
-        this.input.focus();
+        console.log(Game_Controller.#playing);
+        if (Game_Controller.#playing === false) {
+            Game_Controller.#playing = true;
 
-        //Capture the keyboard arrow keys
-        let enter = this.keyboard("Enter");
-        enter.press = () => {
-            this.match_words();
-        };
-        enter.release = () => {
-            this.input.focus();
-        }
+            // Setup dropping of meteors
+            setInterval(this.get_col, 2000);
 
-        let backspace = this.keyboard("Backspace");
-        backspace.press = () => {
-            //this.input.text = this.input.text.slice(0, -1);
-            this.input.text = "";
-        }
-        backspace.release = () => {
+            // Focus the user textbox
             this.input.focus();
+
+            //Capture the keyboard arrow keys
+            let enter = this.keyboard("Enter");
+            enter.press = () => {
+                this.match_words();
+            };
+            enter.release = () => {
+                this.input.focus();
+            }
+
+            let backspace = this.keyboard("Backspace");
+            backspace.press = () => {
+                //this.input.text = this.input.text.slice(0, -1);
+                this.input.text = "";
+            }
+            backspace.release = () => {
+                this.input.focus();
+            }
         }
+        
+        //this.button.event_handler = null;
+
     }
 
     get_col() {
