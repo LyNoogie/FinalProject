@@ -119,6 +119,23 @@
         gameover.x = (this.gameover_popup.width - gameover.width) / 2;
         this.gameover_popup.addChild(gameover);
         app.stage.addChild(this.gameover_popup);
+
+        // Send user's score
+        this.ajax_save_score();
+
+        // Get all high scores
+        var all_scores = {};
+        this.ajax_get_scores(function (output) {
+            all_scores = output;
+            for (var key in all_scores) {
+                console.log(key + ": " + all_scores[key]);
+            }
+        });
+
+        // Display all high scores
+
+
+        //app.ticker.stop();
     }
 
     main() {
@@ -348,6 +365,27 @@
             success: function (data) {
                 handleData(data);
             }
+        });
+    }
+
+    ajax_get_scores(handleData) {
+        $.ajax({
+            async: false,
+            url: "HighScores/GetHighScores",
+            type: "GET",
+            data: "game",
+            success: function (data) {
+                handleData(data);
+            }
+        });
+    }
+
+    ajax_save_score() {
+        $.ajax({
+            async: false,
+            url: "HighScores/InsertScore",
+            type: "POST",
+            data: { username: game_controller.username, score: game_controller.score },
         });
     }
 }
