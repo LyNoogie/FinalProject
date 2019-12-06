@@ -71,10 +71,17 @@
 
     lost_life(meteor) {
         for (var i = 0; i < this.meteors.length; i++) {
-            if (meteor === this.meteor[i]) {
-                // Remove dinosaur
-                aler("remove");
+            if (meteor === this.meteors[i]) {
+                app.stage.removeChild(this.meteors[i]);
+                this.meteors.splice(i, 1);
             }
+        }
+        if (this.dinos.length > 0) {
+            let rmDino = this.dinos.pop();
+            app.stage.removeChild(rmDino);
+        }
+        else {
+            alert("Game over!");
         }
     }
 
@@ -119,7 +126,7 @@
         setScore(0);
 
         this.input = new PixiTextInput();
-        this.input.position.x = 200;
+        this.input.position.x = 150;
         this.input.position.y = 350;
         this.input.width = 250;
         this.input.text = "";
@@ -130,6 +137,7 @@
         dino.y = app.screen.height - 50;
         dino.scale.x = .04;
         dino.scale.y = .04;
+        this.dinos.push(dino);
         app.stage.addChild(dino);
 
         let dino2 = new Dinosaur();
@@ -137,13 +145,15 @@
         dino2.y = app.screen.height - 50;
         dino2.scale.x = .04;
         dino2.scale.y = .04;
+        this.dinos.push(dino2);
         app.stage.addChild(dino2);
 
         let dino3 = new Dinosaur();
-        dino3.x = 100;
+        dino3.x = 80;
         dino3.y = app.screen.height - 50;
         dino3.scale.x = .04;
         dino3.scale.y = .04;
+        this.dinos.push(dino3);
         app.stage.addChild(dino3);
     }
 

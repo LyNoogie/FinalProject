@@ -9,8 +9,8 @@
  */
 function setup_pixi_stage(width, height) {
     //app = new PIXI.Application({ backgroundColor: 0x000000 });
-    app = new PIXI.Application({sharedTicker : true});
-    document.body.appendChild(app.view);
+    app = new PIXI.Application();
+    //document.body.appendChild(app.view);
     app.renderer.resize(width, height);
 
     const background = PIXI.Sprite.from('Resources/background.jpg');
