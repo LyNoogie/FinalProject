@@ -54,9 +54,34 @@
         const loader = PIXI.Loader.shared;
         loader.add("Resources/meteor2.png");
         loader.load(this.load_done.bind(this));
+
+        //Capture the keyboard arrow keys
+        let enter = this.keyboard("Enter");
+        enter.press = () => {
+            this.start_match();
+        };
+        enter.release = () => {
+            console.log("release");
+        }
     }
 
-    
+    start_match() {
+        if (this.match_words()) {
+            console.log("hello");
+        }
+    }
+
+    match_words() {
+        for (var i = 0; i < this.meteors.length; i++) {
+            if (this.meteors[i].word === this.input.text) {
+                app.stage.removeChild(this.meteors[i]);
+                this.meteors.splice(i, 1);
+                this.input.text = "";
+            }
+        }
+        return true;
+    }
+
     load_done(loader, resources) {
         this.add_play_button();
 
@@ -75,12 +100,58 @@
         scoreText.x = app.screen.width - (scoreText.width+40);
         setScore(300);
 
-        var input = new PixiTextInput();
-        input.position.x = 225;
-        input.position.y = 350;
-        input.text = 123;
-        app.stage.addChild(input);
+        this.input = new PixiTextInput();
+        this.input.position.x = 225;
+        this.input.position.y = 350;
+        this.input.text = "";
+        app.stage.addChild(this.input);
+    }
 
+    keyboard(value) {
+        let key = {};
+        key.value = value;
+        key.isDown = false;
+        key.isUp = true;
+        key.press = undefined;
+        key.release = undefined;
+        //The `downHandler`
+        key.downHandler = event => {
+            if (event.key === key.value) {
+                if (key.isUp && key.press) key.press();
+                key.isDown = true;
+                key.isUp = false;
+                event.preventDefault();
+            }
+        };
+
+        //The `upHandler`
+        key.upHandler = event => {
+            if (event.key === key.value) {
+                if (key.isDown && key.release) key.release();
+                key.isDown = false;
+                key.isUp = true;
+                event.preventDefault();
+            }   
+        };
+
+        //Attach event listeners
+        const downListener = key.downHandler.bind(key);
+        const upListener = key.upHandler.bind(key);
+
+        window.addEventListener(
+            "keydown", downListener, false
+        );
+        window.addEventListener(
+            "keyup", upListener, false
+        );
+
+        // Detach event listeners
+        key.unsubscribe = () => {
+            window.removeEventListener("keydown", downListener);
+            window.removeEventListener("keyup", upListener);
+        };
+
+        return key;
     }
 
     ajax_move_request(handleData) {

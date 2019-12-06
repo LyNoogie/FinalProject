@@ -232,7 +232,6 @@ PixiTextInput.prototype.onKeyEvent = function(e) {
 				e.preventDefault();
 				this.trigger(this.change);
 				break;
-
 			case 16://shift
 				this.shiftDown = true;
 				break;
