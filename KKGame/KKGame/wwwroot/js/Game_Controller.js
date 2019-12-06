@@ -2,6 +2,7 @@
     static #playing = false;
     meteors = [];
     dinos = [];
+    username = "";
 
     #screen = new KK_Console();
 
@@ -113,7 +114,8 @@
     }
 
     load_done(loader, resources) {
-        this.add_play_button();
+        
+        //this.add_play_button();
         this.wipe_screen();
 
         this.score = 0;
@@ -161,6 +163,54 @@
         dino3.scale.y = .04;
         this.dinos.push(dino3);
         app.stage.addChild(dino3);
+        this.popup_instructions();
+    }
+
+    popup_instructions() {
+        this.graphics = new PIXI.Graphics();
+        this.graphics.beginFill(0xFFCC00);
+
+        // draw a rectangle
+        this.graphics.drawRect(0, 0, 480, 250);
+        this.graphics.x = (app.screen.width - this.graphics.width) / 2;
+        this.graphics.y = 70;
+
+        var instructions = new PIXI.Text('This is where instuctions will go', {
+            fill: '#ff4500',
+            fontWeight: 'bold',
+        });
+        instructions.style.fontSize = 15;
+        this.graphics.addChild(instructions);
+        app.stage.addChild(this.graphics);
+        
+        var name_text = new PIXI.Text('Enter your name: ', {
+            fill: '#ff4500',
+            fontWeight: 'bold',
+        });
+        name_text.style.fontSize = 18;
+        name_text.position.x = 40;
+        name_text.y = 153;
+        this.graphics.addChild(name_text);
+
+        this.nickname_input = new PixiTextInput();
+        this.nickname_input.position.x = 200;
+        this.nickname_input.position.y = 150;
+        this.nickname_input.width = 200;
+        this.nickname_input.text = "";
+        this.graphics.addChild(this.nickname_input);
+
+        var play_btn = new Button({
+            bg_color: 0xffffff,
+            outline_color: 0x000000,
+            handler: game_controller.start_playing.bind(this),
+            text: "Play"
+        });
+        play_btn.scale.x = .60;
+        play_btn.scale.y = .60;
+        play_btn.x = 240;
+        play_btn.y = 210;
+        this.graphics.addChild(play_btn);
+        
     }
 
     update_score() {
@@ -229,22 +279,22 @@
             });
     }
 
-    add_play_button() {
-        this.button = new Button({
-            bg_color: 0xffffff,
-            outline_color: 0x000000,
-            handler: game_controller.start_playing.bind(this),
-            text: "Play"
-        });
+    //add_play_button() {
+    //    this.button = new Button({
+    //        bg_color: 0xffffff,
+    //        outline_color: 0x000000,
+    //        handler: game_controller.start_playing.bind(this),
+    //        text: "Play"
+    //    });
 
-        this.button.scale.x = .5;
-        this.button.scale.y = .5;
-        this.button.x = 550;
-        this.button.y = 100;
+    //    this.button.scale.x = .5;
+    //    this.button.scale.y = .5;
+    //    this.button.x = 550;
+    //    this.button.y = 100;
 
-        app.stage.addChild(this.button);
+    //    app.stage.addChild(this.button);
 
-    }
+    //}
 
     clear() {
         if (this.score >= 50) {
