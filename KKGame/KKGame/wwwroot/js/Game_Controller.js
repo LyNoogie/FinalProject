@@ -91,6 +91,8 @@
             if (this.meteors[i].word === this.input.text) {
                 app.stage.removeChild(this.meteors[i]);
                 this.meteors.splice(i, 1);
+                this.score += this.input.text.length;
+                this.update_score();
                 this.input.text = "";
             }
         }
@@ -99,25 +101,27 @@
 
     load_done(loader, resources) {
         this.add_play_button();
+        this.wipe_screen();
 
-        let score = 0;
-        let scoreText = new PIXI.Text('Score: 0', {
+        this.score = 0;
+        this.scoreText = new PIXI.Text('Score: 0', {
             fill: '#ff4500',
             fontWeight: 'bold',
         });
 
-        app.stage.addChild(scoreText);
+        app.stage.addChild(this.scoreText);
 
         let setScore = value => {
-            score = value;
-            scoreText.text = ('Score: ' + score);
+            this.score = value;
+            this.scoreText.text = ('Score: ' + this.score);
         };
-        scoreText.x = app.screen.width - (scoreText.width+40);
-        setScore(300);
+        this.scoreText.x = app.screen.width - (this.scoreText.width+40);
+        setScore(0);
 
         this.input = new PixiTextInput();
-        this.input.position.x = 225;
+        this.input.position.x = 200;
         this.input.position.y = 350;
+        this.input.width = 250;
         this.input.text = "";
         app.stage.addChild(this.input);
 
@@ -141,6 +145,10 @@
         dino3.scale.x = .04;
         dino3.scale.y = .04;
         app.stage.addChild(dino3);
+    }
+
+    update_score() {
+        this.scoreText.text = ('Score: ' + this.score);
     }
 
     keyboard(value) {
@@ -209,6 +217,7 @@
         this.button = new Button({
             bg_color: 0xffffff,
             outline_color: 0x000000,
+            handler: game_controller.start_playing.bind(this),
             text: "Play"
         });
 
@@ -218,6 +227,36 @@
         this.button.y = 100;
 
         app.stage.addChild(this.button);
+
+    }
+
+    clear() {
+        if (this.score >= 50) {
+            this.score -= 50;
+            this.update_score();
+            let sprite = app.stage.getChildAt(0);
+            this.meteors.forEach(element => app.stage.removeChild(element));
+            this.meteors.clear;
+        }
+        //while (sprite instanceof Meteor) {
+        //    app.stage.removeChild(sprite);
+        //    sprite = app.stage.getChildAt(0);
+        //}
+    }
+
+    wipe_screen() {
+        this.button = new Button({
+            bg_color: 0xffffff,
+            outline_color: 0x000000,
+            handler: game_controller.clear.bind(this),
+            text: "Clear"
+        });
+        this.button.scale.x = .5;
+        this.button.scale.y = .5;
+        this.button.x = 550;
+        this.button.y = 150;
+
+        app.stage.addChild(this.button)
 
     }
     
