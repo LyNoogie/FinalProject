@@ -109,6 +109,7 @@
     }
 
     load_done(loader, resources) {
+        this.popup_instructions();
         this.add_play_button();
         this.wipe_screen();
 
@@ -157,6 +158,18 @@
         dino3.scale.y = .04;
         this.dinos.push(dino3);
         app.stage.addChild(dino3);
+    }
+
+    popup_instructions() {
+        var graphics = new PIXI.Graphics();
+        graphics.beginFill(0xFFFF00);
+
+        // draw a rectangle
+        graphics.drawRect(0, 0, 300, 200);
+        graphics.x = 100;
+        graphics.y = 100;
+
+        app.stage.addChild(graphics);
     }
 
     update_score() {
