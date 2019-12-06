@@ -98,8 +98,9 @@
         setScore(0);
 
         this.input = new PixiTextInput();
-        this.input.position.x = 225;
+        this.input.position.x = 200;
         this.input.position.y = 350;
+        this.input.width = 250;
         this.input.text = "";
         app.stage.addChild(this.input);
     }
