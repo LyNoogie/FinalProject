@@ -40,6 +40,9 @@
         if (Game_Controller.#playing === false) {
             Game_Controller.#playing = true;
 
+            this.username = this.nickname_input.text;
+            app.stage.removeChild(this.graphics);
+
             // Setup dropping of meteors
             setInterval(this.get_col, 2000);
 
@@ -88,7 +91,15 @@
         if (this.dinos.length > 0) {
             let rmDino = this.dinos.pop();
             app.stage.removeChild(rmDino);
+
         }
+        else {
+            this.end_game();
+        }
+    }
+
+    end_game() {
+        app.ticker.stop();
     }
 
     main() {
