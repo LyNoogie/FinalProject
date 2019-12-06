@@ -107,6 +107,10 @@
         app.stage.addChild(this.input);
     }
 
+    //update_score() {
+
+    //}
+
     keyboard(value) {
         let key = {};
         key.value = value;
