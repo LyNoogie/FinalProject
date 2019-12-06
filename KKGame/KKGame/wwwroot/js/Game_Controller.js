@@ -99,7 +99,24 @@
     }
 
     end_game() {
-        app.ticker.stop();
+        this.gameover_popup = new PIXI.Graphics();
+        this.gameover_popup.beginFill(0xFFCC00);
+
+        // draw a rectangle
+        this.gameover_popup.drawRect(0, 0, 480, 250);
+        this.gameover_popup.x = (app.screen.width - this.gameover_popup.width) / 2;
+        this.gameover_popup.y = 70;
+
+        app.stage.addChild(this.gameover_popup);
+        var gameover = new PIXI.Text('GAME OVER', {
+            fill: '#ff4500',
+            fontWeight: 'bold',
+        });
+        gameover.style.fontSize = 15;
+        this.gameover_popup.addChild(gameover);
+        app.stage.addChild(this.gameover_popup);
+
+        //app.ticker.stop();
     }
 
     main() {
@@ -289,23 +306,6 @@
                 console.log("didn't work!");
             });
     }
-
-    //add_play_button() {
-    //    this.button = new Button({
-    //        bg_color: 0xffffff,
-    //        outline_color: 0x000000,
-    //        handler: game_controller.start_playing.bind(this),
-    //        text: "Play"
-    //    });
-
-    //    this.button.scale.x = .5;
-    //    this.button.scale.y = .5;
-    //    this.button.x = 550;
-    //    this.button.y = 100;
-
-    //    app.stage.addChild(this.button);
-
-    //}
 
     clear() {
         if (this.score >= 50) {
