@@ -1,6 +1,7 @@
 ﻿class Game_Controller {
     static #playing = false;
     meteors = [];
+    dinos = [];
 
     #screen = new KK_Console();
 
@@ -38,6 +39,25 @@
 
     start_playing() {
         setInterval(this.get_col, 2000);
+        this.input.focus();
+
+        //Capture the keyboard arrow keys
+        let enter = this.keyboard("Enter");
+        enter.press = () => {
+            this.match_words();
+        };
+        enter.release = () => {
+            this.input.focus();
+        }
+
+        let backspace = this.keyboard("Backspace");
+        backspace.press = () => {
+            //this.input.text = this.input.text.slice(0, -1);
+            this.input.text = "";
+        }
+        backspace.release = () => {
+            this.input.focus();
+        }
     }
 
     get_col() {
@@ -49,20 +69,21 @@
         game_controller.drop_in_column(col);
     }
 
+    lost_life(meteor) {
+        for (var i = 0; i < this.meteors.length; i++) {
+            if (meteor === this.meteor[i]) {
+                // Remove dinosaur
+                aler("remove");
+            }
+        }
+    }
+
     main() {
         setup_pixi_stage(600, 400);
         const loader = PIXI.Loader.shared;
         loader.add("Resources/meteor2.png");
+        loader.add("Resources/dinosaur.png");
         loader.load(this.load_done.bind(this));
-
-        //Capture the keyboard arrow keys
-        let enter = this.keyboard("Enter");
-        enter.press = () => {
-            this.match_words();
-        };
-        enter.release = () => {
-            this.input.focus();
-        }
     }
 
     match_words() {
@@ -99,6 +120,27 @@
         this.input.position.y = 350;
         this.input.text = "";
         app.stage.addChild(this.input);
+
+        let dino = new Dinosaur();
+        dino.x = app.screen.width - 50;
+        dino.y = app.screen.height - 50;
+        dino.scale.x = .04;
+        dino.scale.y = .04;
+        app.stage.addChild(dino);
+
+        let dino2 = new Dinosaur();
+        dino2.x = app.screen.width - 150;
+        dino2.y = app.screen.height - 50;
+        dino2.scale.x = .04;
+        dino2.scale.y = .04;
+        app.stage.addChild(dino2);
+
+        let dino3 = new Dinosaur();
+        dino3.x = 100;
+        dino3.y = app.screen.height - 50;
+        dino3.scale.x = .04;
+        dino3.scale.y = .04;
+        app.stage.addChild(dino3);
     }
 
     keyboard(value) {
