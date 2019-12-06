@@ -2,6 +2,7 @@
     static #playing = false;
     meteors = [];
     dinos = [];
+    username = "";
 
     #screen = new KK_Console();
 
@@ -38,6 +39,8 @@
     }
 
     start_playing() {
+        this.username = this.nickname_input.text;
+        app.stage.removeChild(this.graphics);
         setInterval(this.get_col, 2000);
         this.input.focus();
 
@@ -167,28 +170,37 @@
     }
 
     popup_instructions() {
-        var graphics = new PIXI.Graphics();
-        graphics.beginFill(0xFFCC00);
+        this.graphics = new PIXI.Graphics();
+        this.graphics.beginFill(0xFFCC00);
 
         // draw a rectangle
-        graphics.drawRect(0, 0, 480, 250);
-        graphics.x = 70;
-        graphics.y = 70;
+        this.graphics.drawRect(0, 0, 480, 250);
+        this.graphics.x = (app.screen.width - this.graphics.width) / 2;
+        this.graphics.y = 70;
 
         var instructions = new PIXI.Text('This is where instuctions will go', {
             fill: '#ff4500',
             fontWeight: 'bold',
         });
         instructions.style.fontSize = 15;
-        graphics.addChild(instructions);
-        app.stage.addChild(graphics);
+        this.graphics.addChild(instructions);
+        app.stage.addChild(this.graphics);
+        
+        var name_text = new PIXI.Text('Enter your name: ', {
+            fill: '#ff4500',
+            fontWeight: 'bold',
+        });
+        name_text.style.fontSize = 18;
+        name_text.position.x = 40;
+        name_text.y = 153;
+        this.graphics.addChild(name_text);
 
-        var nickname_input = new PixiTextInput();
-        nickname_input.position.x = 140;
-        nickname_input.position.y = 150;
-        nickname_input.width = 200;
-        nickname_input.text = "";
-        graphics.addChild(nickname_input);
+        this.nickname_input = new PixiTextInput();
+        this.nickname_input.position.x = 200;
+        this.nickname_input.position.y = 150;
+        this.nickname_input.width = 200;
+        this.nickname_input.text = "";
+        this.graphics.addChild(this.nickname_input);
 
         var play_btn = new Button({
             bg_color: 0xffffff,
@@ -200,7 +212,7 @@
         play_btn.scale.y = .60;
         play_btn.x = 240;
         play_btn.y = 210;
-        graphics.addChild(play_btn);
+        this.graphics.addChild(play_btn);
         
     }
 
