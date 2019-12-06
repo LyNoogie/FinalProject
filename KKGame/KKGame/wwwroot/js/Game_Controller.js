@@ -70,6 +70,8 @@
             if (this.meteors[i].word === this.input.text) {
                 app.stage.removeChild(this.meteors[i]);
                 this.meteors.splice(i, 1);
+                this.score += this.input.text.length;
+                this.update_score();
                 this.input.text = "";
             }
         }
@@ -79,20 +81,20 @@
     load_done(loader, resources) {
         this.add_play_button();
 
-        let score = 0;
-        let scoreText = new PIXI.Text('Score: 0', {
+        this.score = 0;
+        this.scoreText = new PIXI.Text('Score: 0', {
             fill: '#ff4500',
             fontWeight: 'bold',
         });
 
-        app.stage.addChild(scoreText);
+        app.stage.addChild(this.scoreText);
 
         let setScore = value => {
-            score = value;
-            scoreText.text = ('Score: ' + score);
+            this.score = value;
+            this.scoreText.text = ('Score: ' + this.score);
         };
-        scoreText.x = app.screen.width - (scoreText.width+40);
-        setScore(300);
+        this.scoreText.x = app.screen.width - (this.scoreText.width+40);
+        setScore(0);
 
         this.input = new PixiTextInput();
         this.input.position.x = 225;
@@ -101,9 +103,9 @@
         app.stage.addChild(this.input);
     }
 
-    //update_score() {
-
-    //}
+    update_score() {
+        this.scoreText.text = ('Score: ' + this.score);
+    }
 
     keyboard(value) {
         let key = {};
