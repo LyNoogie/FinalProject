@@ -114,8 +114,8 @@
     }
 
     load_done(loader, resources) {
-        this.popup_instructions();
-        this.add_play_button();
+        
+        //this.add_play_button();
         this.wipe_screen();
 
         this.score = 0;
@@ -163,18 +163,45 @@
         dino3.scale.y = .04;
         this.dinos.push(dino3);
         app.stage.addChild(dino3);
+        this.popup_instructions();
     }
 
     popup_instructions() {
         var graphics = new PIXI.Graphics();
-        graphics.beginFill(0xFFFF00);
+        graphics.beginFill(0xFFCC00);
 
         // draw a rectangle
-        graphics.drawRect(0, 0, 300, 200);
-        graphics.x = 100;
-        graphics.y = 100;
+        graphics.drawRect(0, 0, 480, 250);
+        graphics.x = 70;
+        graphics.y = 70;
 
+        var instructions = new PIXI.Text('This is where instuctions will go', {
+            fill: '#ff4500',
+            fontWeight: 'bold',
+        });
+        instructions.style.fontSize = 15;
+        graphics.addChild(instructions);
         app.stage.addChild(graphics);
+
+        var nickname_input = new PixiTextInput();
+        nickname_input.position.x = 140;
+        nickname_input.position.y = 150;
+        nickname_input.width = 200;
+        nickname_input.text = "";
+        graphics.addChild(nickname_input);
+
+        var play_btn = new Button({
+            bg_color: 0xffffff,
+            outline_color: 0x000000,
+            handler: game_controller.start_playing.bind(this),
+            text: "Play"
+        });
+        play_btn.scale.x = .60;
+        play_btn.scale.y = .60;
+        play_btn.x = 240;
+        play_btn.y = 210;
+        graphics.addChild(play_btn);
+        
     }
 
     update_score() {
@@ -243,22 +270,22 @@
             });
     }
 
-    add_play_button() {
-        this.button = new Button({
-            bg_color: 0xffffff,
-            outline_color: 0x000000,
-            handler: game_controller.start_playing.bind(this),
-            text: "Play"
-        });
+    //add_play_button() {
+    //    this.button = new Button({
+    //        bg_color: 0xffffff,
+    //        outline_color: 0x000000,
+    //        handler: game_controller.start_playing.bind(this),
+    //        text: "Play"
+    //    });
 
-        this.button.scale.x = .5;
-        this.button.scale.y = .5;
-        this.button.x = 550;
-        this.button.y = 100;
+    //    this.button.scale.x = .5;
+    //    this.button.scale.y = .5;
+    //    this.button.x = 550;
+    //    this.button.y = 100;
 
-        app.stage.addChild(this.button);
+    //    app.stage.addChild(this.button);
 
-    }
+    //}
 
     clear() {
         if (this.score >= 50) {

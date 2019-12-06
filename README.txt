@@ -9,4 +9,6 @@
 8. Removing elements from an array: https://love2dev.com/blog/javascript-remove-from-array/
 9: Loops in JS: https://codeburst.io/javascript-the-difference-between-foreach-and-for-in-992db038e4c2
 10: Listening for keyboard events: https://github.com/kittykatattack/learningPixi
+11: Make instruction box: https://stackoverflow.com/questions/22073350/draw-a-rectangle-with-pixi-js
+
 
