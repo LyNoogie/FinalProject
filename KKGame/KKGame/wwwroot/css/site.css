@@ -32,8 +32,9 @@ html, body {
     height: 100%;
 }
 
-canvas {
+.screen {
     position: relative;
+    text-align: center;
     z-index: 1;
     display: block;
 }
