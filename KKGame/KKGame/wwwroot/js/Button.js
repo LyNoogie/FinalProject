@@ -1,4 +1,18 @@
-﻿class Button extends PIXI.Graphics {
+﻿/**
+ * Author:    Kaelin Hoang
+ * Partner:   Khanhly Nguyen
+ * Date:      12/4/2019
+ * Course:    CS 4540, University of Utah, School of Computing
+ * Copyright: CS 4540 and [Your Name(s)] - This work may not be copied for use in Academic Coursework.
+ *
+ * I, [your name], certify that I wrote this code from scratch and did not copy it in part or whole from
+ * another source.  Any references used in the completion of the assignment are cited in my README file.
+ *
+ * File Contents
+ *
+ *    Button class handles movement, images and events of a button instance
+ */
+class Button extends PIXI.Graphics {
 
     // action to take when clicked. 
     event_handler = null;

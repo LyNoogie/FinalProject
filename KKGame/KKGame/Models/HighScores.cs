@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace KKGame.Models
 {
+    /// <summary>
+    /// This class features the model to create the High Scores table.
+    /// </summary>
     public class HighScores
     {
         public int HighScoreID { get; set; }
