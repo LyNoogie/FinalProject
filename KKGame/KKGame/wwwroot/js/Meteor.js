@@ -51,7 +51,7 @@
     animate_falling() {
         if (this.y >= (app.screen.height - (this.height / 2))) {
             game_controller.lose_life(this);
-            this.ticker.stop();
+            this.ticker.remove(this.animate_falling, this);
         }
         this.y += 1;
     }

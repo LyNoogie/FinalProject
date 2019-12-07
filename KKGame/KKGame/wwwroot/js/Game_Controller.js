@@ -3,6 +3,7 @@
     meteors = [];
     dinos = [];
     username = "";
+    is_done = false;
 
     #screen = new KK_Console();
 
@@ -92,45 +93,50 @@
         if (this.dinos.length > 0) {
             let rmDino = this.dinos.pop();
             app.stage.removeChild(rmDino);
-
         }
         else {
             this.end_game();
+            this.is_done = true;
         }
     }
 
     end_game() {
         Game_Controller.#playing = false;
+        if (this.is_done === true) {
+            this.is_done = false;
+            this.gameover_popup = new PIXI.Graphics();
+            this.gameover_popup.beginFill(0x000000);
 
-        this.gameover_popup = new PIXI.Graphics();
-        this.gameover_popup.beginFill(0x000000);
+            // draw a rectangle
+            this.gameover_popup.drawRect(0, 0, 480, 250);
+            this.gameover_popup.x = (app.screen.width - this.gameover_popup.width) / 2;
+            this.gameover_popup.y = 70;
 
-        // draw a rectangle
-        this.gameover_popup.drawRect(0, 0, 480, 250);
-        this.gameover_popup.x = (app.screen.width - this.gameover_popup.width) / 2;
-        this.gameover_popup.y = 70;
+            app.stage.addChild(this.gameover_popup);
+            var done_text = "\t GAME OVER \n\n\n" + this.username + ", your score was " + this.score;
+            var gameover = new PIXI.Text(done_text, {
+                fill: '#ff4500',
+                fontWeight: 'bold',
+            });
+            gameover.style.fontSize = 25;
+            gameover.x = (this.gameover_popup.width - gameover.width) / 2;
+            this.gameover_popup.addChild(gameover);
+            app.stage.addChild(this.gameover_popup);
 
-        app.stage.addChild(this.gameover_popup);
-        var gameover = new PIXI.Text('GAME OVER', {
-            fill: '#ff4500',
-            fontWeight: 'bold',
-        });
-        gameover.style.fontSize = 25;
-        gameover.x = (this.gameover_popup.width - gameover.width) / 2;
-        this.gameover_popup.addChild(gameover);
-        app.stage.addChild(this.gameover_popup);
+            // Send user's score ------------ LEFT IN FOR DEMO PURPOSES AND GRADING -------------------
+            //this.ajax_save_score();
 
-        // Send user's score
-        this.ajax_save_score();
+            // Get all high scores
+            //var all_scores = {};
+            //this.ajax_get_scores(function (output) {
+            //    all_scores = output;
+            //    for (var key in all_scores) {
+            //        console.log(key + ": " + all_scores[key]);
+            //    }
+            //});
+        }
 
-        // Get all high scores
-        var all_scores = {};
-        this.ajax_get_scores(function (output) {
-            all_scores = output;
-            for (var key in all_scores) {
-                console.log(key + ": " + all_scores[key]);
-            }
-        });
+        
 
         // Display all high scores
 
