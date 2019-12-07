@@ -102,31 +102,32 @@
 
     end_game() {
         Game_Controller.#playing = false;
-        if (this.is_done === true) {
-            this.is_done = false;
-            this.gameover_popup = new PIXI.Graphics();
-            this.gameover_popup.beginFill(0x000000);
+        
+        this.is_done = false;
+        this.gameover_popup = new PIXI.Graphics();
+        this.gameover_popup.beginFill(0x000000);
 
-            // draw a rectangle
-            this.gameover_popup.drawRect(0, 0, 480, 250);
-            this.gameover_popup.x = (app.screen.width - this.gameover_popup.width) / 2;
-            this.gameover_popup.y = 70;
+        // draw a rectangle
+        this.gameover_popup.drawRect(0, 0, 480, 250);
+        this.gameover_popup.x = (app.screen.width - this.gameover_popup.width) / 2;
+        this.gameover_popup.y = 70;
 
-            app.stage.addChild(this.gameover_popup);
-            var done_text = "\t GAME OVER \n\n\n" + this.username + ", your score was " + this.score;
-            var gameover = new PIXI.Text(done_text, {
-                fill: '#ff4500',
-                fontWeight: 'bold',
-            });
-            gameover.style.fontSize = 25;
-            gameover.x = (this.gameover_popup.width - gameover.width) / 2;
-            this.gameover_popup.addChild(gameover);
-            app.stage.addChild(this.gameover_popup);
+        app.stage.addChild(this.gameover_popup);
+        var done_text = "\t GAME OVER \n\n\n" + this.username + ", your score was " + this.score;
+        var gameover = new PIXI.Text(done_text, {
+            fill: '#ff4500',
+            fontWeight: 'bold',
+        });
+        gameover.style.fontSize = 25;
+        gameover.x = (this.gameover_popup.width - gameover.width) / 2;
+        this.gameover_popup.addChild(gameover);
+        app.stage.addChild(this.gameover_popup);
+
 
             // Send user's score ------------ LEFT IN FOR DEMO PURPOSES AND GRADING -------------------
             //this.ajax_save_score();
 
-            // Get all high scores
+            //// Get all high scores
             //var all_scores = {};
             //this.ajax_get_scores(function (output) {
             //    all_scores = output;
@@ -134,7 +135,7 @@
             //        console.log(key + ": " + all_scores[key]);
             //    }
             //});
-        }
+        
 
         
 
@@ -228,7 +229,7 @@
         this.graphics.x = (app.screen.width - this.graphics.width) / 2;
         this.graphics.y = 70;
 
-        var instructions = new PIXI.Text('Welcome to Keyranasaurus Text, a game to test your typing \nabilities. ' 
+        var instructions = new PIXI.Text('Welcome to Keyrannosaurus Text, a game to test your typing \nabilities. ' 
             + 'Type the words correctly to destroy the falling meteors in \norder to save your dinosaur friends. You can choose '
             + ' to destroy \nall the meteors on the screen if you have accumulated 50 points. \nBeware, this comes at a price of 50'
             + ' points, so choose wisely. \n\nThe next meteor that hits after all'
