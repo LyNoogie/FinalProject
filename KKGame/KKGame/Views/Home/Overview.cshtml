@@ -1,0 +1,69 @@
+﻿<h1>Features</h1>
+<p>Hi, we're Kaelin Hoang and Khanhly Nguyen, otherwise known as the Keyboard Kardashians. The typing game we created
+    is built primarily using PIXI.js with 3 main components:
+    <ul>
+        <li>The database</li>
+        <li>The controllers</li>
+        <li>The game logic</li>
+    </ul>
+    Our game tests the player's typing abilities by having a series of words fall from the screen and the user is tasked 
+    with successfully typing words associated to each meteor in order to accumulate points. The player also has the 
+    opportunity to buy a "clear screen" button in which all the meteors currently on the screen will disappear at a cost 
+    of 50 points. This is a tradeoff between lives and a high score so the player should choose wisely.</p>
+
+    <img src="~/Resources/enter_name.PNG" />
+
+    <p>The premise of the game is to destroy as many falling meteors as possible to obtain a high score. Each meteor has an 
+    associated word and the player is tasked with destroying as many meteors as possible as seen below: </p>
+
+    <img src="~/Resources/falling_meteors.png" />
+
+    <p>Each player is given 4 lives which we track with a list of dinosaurs. When a player loses a life, we remove the last 
+    dinosaur from our list and we constantly check if the list is empty. Once the list is empty, we allow the user one more
+    try before ending the game. Losing a life is visually represented with dinosaurs at the bottom of the page and the a 
+    single dinosaur will disappear for each life. </p>
+    
+    <img src="~/Resources/lose_life.PNG"/>
+    <p>When all lives are lost, a game over message is displayed along with their name and their high score. Users can play 
+    again by refreshing their web page.</p>
+
+    <img src="~/Resources/end_game.PNG" />
+    </p>
+<h1>Instructions</h1>
+<p>
+    <ol>
+        <li>Supply a name into the text box provided in the instructions popup.</li>
+        <li>Click play.</li>
+        <li>When finished typing a word, press enter to submit.</li>
+    </ol>
+</p>
+<h1>Backend</h1>
+<p>Our game uses a database to store words and users. This database is queried multiple times throughout the game to generate 
+    words that then get displayed on the meteors. The second table within our database stores the names of previous players along
+    with their high scores. These high scores were not able to be displayed on the game over popup because function calls were 
+    being made asynchronously, so users and their high scores were being added to the database multiple times within a small time 
+    frame. When we tried working around the asynchronous issue, we ran into a TICKER problem where all animation would cease to continue 
+    after the ticker was stopped along with any ajax calls. </p>
+
+    <p>Since we built our game primarily using PIXI.js, we had many workarounds to get the game to work. One of the main issues we ran 
+    into was PIXI's lack of a text box object. Since our game is a typing game, this posed as a huge issue, but we were fortunate 
+    enough to find an open-source library that provided this functionality in PIXI. PIXI also did not have a built in keyboard listener, 
+    so we had to program this ourselves. When the player pressed enter after successfully typing in a word, there was no built-in 
+    functionality to detect that enter was pressed. We had to create a listener for this, but we then ran into the issue of having the 
+    player click on the text box after pressing enter. We then tried "focusing" the text box each time enter was pressed in order to 
+    have the text box be "selected." This raised another issue because after calling a manual focus after each enter, the enter listener 
+    that we created would be forgotten. We added the scope within the enter listener, so each time enter was released, we hard-coded 
+    the scope back to the enter listener. From this, we ran into issues with the delete key where characters would no longer be deleted, 
+    so this led to us reimplementing the backspace event.</p>
+    
+    <p>
+        Another big contribution that isn't seen visually is our dynamically created meteors. Since each meteor needed an associated word,
+        we needed to keep track of each meteor currently on the screen and what word is associated to each meteor. Once the meteor is
+        deleted, we needed a way to delete the ticker associated to the meteor along with removing it from the screen. When dynamically creating
+        each meteor, we assigned each with its own ticker along with creating a meteor object to have a word attribute. This allowed us to
+        keep track of which meteor was deleted. All meteors were kept in a list and we would perform a search and splice to find the meteor
+        that was closest to the bottom of the screen and remove it from the list. If the player didn't remove a meteor closest to the bottom
+        of the screen, we would maintain a splice functionality. Searching and splicing was also required even if the user did not successfully
+        type in the word. If the meteor reached the bottom of the screen, we would search for it and remove it from our list along with decrementing
+        the user's allotted life.
+    </p>
